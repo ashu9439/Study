@@ -55,7 +55,7 @@ DynamoDB falls under the category of NoSQL databases. NoSQL stands for "Not Only
 
 ### DynamoDB's Type:
 
-DynamoDB specifically fits into the category of Key-Value Stores. It organizes data as key-value pairs where each item (value) is uniquely identified by a key within a table. However, DynamoDB also incorporates document-oriented features, allowing for nested attributes within items, making it a blend of key-value and document-oriented databases.
+DynamoDB specifically fits into the category of *Key-Value* Stores. It organizes data as key-value pairs where each item (value) is uniquely identified by a key within a table. However, DynamoDB also incorporates document-oriented features, allowing for nested attributes within items, making it a blend of key-value and document-oriented databases.
 
 Its primary key structure (partition key or composite key with partition key and sort key) resembles key-value pairs, while the flexibility in item attributes aligns with the document-based model.
 
