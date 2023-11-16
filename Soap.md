@@ -78,3 +78,205 @@ WSDL documents are often exposed by service providers to enable developers to in
 WSDL is a key component in the implementation and consumption of SOAP-based web services, facilitating interoperability between different systems and programming languages.
 
 ****
+Let's create a simple example to illustrate a WSDL file for a hypothetical weather service that provides information about the weather in different cities.
+
+Here's a basic WSDL example:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="WeatherService"
+             targetNamespace="http://www.example.com/weatherservice"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://www.example.com/weatherservice"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Define types -->
+    <types>
+        <xsd:schema targetNamespace="http://www.example.com/weatherservice">
+            <xsd:element name="City" type="xsd:string"/>
+            <xsd:element name="Weather" type="xsd:string"/>
+        </xsd:schema>
+    </types>
+
+    <!-- Define messages -->
+    <message name="GetWeatherRequest">
+        <part name="City" element="tns:City"/>
+    </message>
+    <message name="GetWeatherResponse">
+        <part name="Weather" element="tns:Weather"/>
+    </message>
+
+    <!-- Define port type -->
+    <portType name="WeatherPortType">
+        <operation name="GetWeather">
+            <input message="tns:GetWeatherRequest"/>
+            <output message="tns:GetWeatherResponse"/>
+        </operation>
+    </portType>
+
+    <!-- Define binding -->
+    <binding name="WeatherBinding" type="tns:WeatherPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="GetWeather">
+            <soap:operation soapAction="http://www.example.com/weatherservice/GetWeather"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <!-- Define service -->
+    <service name="WeatherService">
+        <port name="WeatherPort" binding="tns:WeatherBinding">
+            <soap:address location="http://www.example.com/weatherservice"/>
+        </port>
+    </service>
+</definitions>
+```
+
+Explanation:
+
+- **Types:** Defines the data types used in the service. Here, we have two simple types: `City` and `Weather`.
+
+- **Messages:** Describes the structure of the messages. We have two messages: `GetWeatherRequest` containing a `City` element, and `GetWeatherResponse` containing a `Weather` element.
+
+- **Port Type:** Describes the operations available. In this case, the `GetWeather` operation takes a `City` and returns `Weather`.
+
+- **Binding:** Specifies how the operations are bound to a specific protocol (SOAP) and transport (HTTP). It defines the details of how the messages will be transmitted.
+
+- **Service:** Combines the binding and port information into a service. It provides the address (URL) where the service can be accessed.
+
+This example illustrates the structure of a WSDL file for a simple weather service, outlining the operations, messages, data types, and how the service can be accessed using SOAP over HTTP.
+
+
+****
+Sure, here's an example of a simple SOAP server using Node.js with the `soap` module. This server will expose a SOAP web service that provides weather information for cities.
+
+First, make sure you have Node.js installed. Then create a new directory for your project and initialize a Node.js project:
+
+```bash
+mkdir soap-server-example
+cd soap-server-example
+npm init -y
+```
+
+Next, install the `soap` module, which allows you to create a SOAP server:
+
+```bash
+npm install soap
+```
+
+Now, create a file named `weatherService.js` where you'll define your SOAP service:
+
+```javascript
+const soap = require('soap');
+
+// Define the service
+const service = {
+  WeatherService: {
+    WeatherPort: {
+      GetWeather: function(args) {
+        const city = args.City;
+        // In a real scenario, this data might be fetched from a database or an external API
+        const weatherData = {
+          London: 'Rainy',
+          Paris: 'Sunny',
+          NewYork: 'Cloudy'
+        };
+
+        return { Weather: weatherData[city] || 'Unknown city' };
+      }
+    }
+  }
+};
+
+// Define the WSDL
+const xml = require('fs').readFileSync('weatherService.wsdl', 'utf8');
+
+// Create the SOAP server
+const server = soap.createServer({ services: service, xml: xml });
+
+// Listen on a specific port
+const port = 8000;
+server.listen(port, function() {
+  console.log(`SOAP server listening on port ${port}`);
+});
+```
+
+In this code:
+
+- `weatherService.js` defines a simple SOAP service `WeatherService` with a method `GetWeather` that takes a `City` argument and returns the weather for that city.
+
+Next, create a file named `weatherService.wsdl` in the same directory. This file describes the structure of the SOAP service:
+
+```xml
+<definitions name="WeatherService"
+             targetNamespace="http://www.example.com/weatherservice"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://www.example.com/weatherservice"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Define types -->
+    <types>
+        <xsd:schema targetNamespace="http://www.example.com/weatherservice">
+            <xsd:element name="City" type="xsd:string"/>
+            <xsd:element name="Weather" type="xsd:string"/>
+        </xsd:schema>
+    </types>
+
+    <!-- Define messages -->
+    <message name="GetWeatherRequest">
+        <part name="City" element="tns:City"/>
+    </message>
+    <message name="GetWeatherResponse">
+        <part name="Weather" element="tns:Weather"/>
+    </message>
+
+    <!-- Define port type -->
+    <portType name="WeatherPortType">
+        <operation name="GetWeather">
+            <input message="tns:GetWeatherRequest"/>
+            <output message="tns:GetWeatherResponse"/>
+        </operation>
+    </portType>
+
+    <!-- Define binding -->
+    <binding name="WeatherBinding" type="tns:WeatherPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="GetWeather">
+            <soap:operation soapAction="http://www.example.com/weatherservice/GetWeather"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <!-- Define service -->
+    <service name="WeatherService">
+        <port name="WeatherPort" binding="tns:WeatherBinding">
+            <soap:address location="http://localhost:8000/weather"/>
+        </port>
+    </service>
+</definitions>
+```
+
+This WSDL file describes the structure of the SOAP service, including the types, messages, port type, binding, and service details.
+
+To run the server, execute:
+
+```bash
+node weatherService.js
+```
+
+Now, you have a simple SOAP server running at `http://localhost:8000/weather` that provides weather information based on the city you pass in the SOAP request.
+
+
+****
