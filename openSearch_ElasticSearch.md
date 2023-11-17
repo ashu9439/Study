@@ -5,6 +5,13 @@ Elastic search , kiban , logstach ,ELK
 
 <img width="184" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/b69f35c4-95fd-4ae4-94d9-3f0fc5d61450">
 <img width="187" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/66d20bdb-e871-4c8b-a156-a200e5e5b306">
+<img width="506" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/1dfd5dff-385c-4363-9b46-3ec42b8bc250">
+<img width="535" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/63741dda-de1d-4173-a9c5-2617ebc964a3">
+<img width="466" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/d84d61da-f47a-4c85-aa8c-dc6cef07076c">
+<img width="407" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/5b18f557-0b38-4890-9791-e681f1fdf46e">
+<img width="247" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/582b832f-d4ad-4050-ba58-a0f067ebd5a9">
+<img width="421" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/1fe85a33-3a5b-4adf-aab5-b78fb84c807f">
+
 
 
 
