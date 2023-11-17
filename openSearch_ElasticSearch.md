@@ -11,6 +11,8 @@ Elastic search , kiban , logstach ,ELK
 <img width="407" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/5b18f557-0b38-4890-9791-e681f1fdf46e">
 <img width="247" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/582b832f-d4ad-4050-ba58-a0f067ebd5a9">
 <img width="421" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/1fe85a33-3a5b-4adf-aab5-b78fb84c807f">
+<img width="353" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/59f695a5-2887-4b03-b108-05c2da100149">
+<img width="219" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/c9fc7d04-25c4-4d01-a4f1-b115183635da">
 
 
 
