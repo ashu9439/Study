@@ -99,6 +99,13 @@ container <--> pod   <--> deployment
 deplyment resource -> replica set(k8s controller) -> pods
    
     
-    
+# k8s controllers :
+- helps to keep the actual state of the cluster same as the desired state(written in the deployemt .yaml file)
+- helps to do uto healing and auto scaling
+- 
+default: replica set
+custom : argo cd, etc
+
+*****
     
     
