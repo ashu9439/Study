@@ -85,8 +85,18 @@ local k8s cluster :
 ****
 # Kube-ctl 
  - commandline interface for k8s
- - 
 
+
+*****
+# K8s deployment
+    - helps to do 
+        - auto healing 
+        - auto scaling
+
+difference between ?
+container <--> pod   <--> deployment 
+
+deplyment resource -> replica set(k8s controller) -> pods
    
     
     
