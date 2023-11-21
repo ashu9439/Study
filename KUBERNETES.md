@@ -48,8 +48,16 @@ data Plane :
 - ccm
 
 # practicle :
- 1. install miniKube
- 2. install Kubectl
+ 1. install miniKube(dev env k8s cluster)
+ 2. install Kubectl( cmd ln i/f)
+
+****
+local k8s cluster :
+    - minikube
+    - k3s
+    - kind (prefer)
+    - microk8s
+    
 
 ****
 
@@ -65,6 +73,20 @@ data Plane :
 # tools to manage clusters on production
 1. kops
 2. kubeadm
+****
+
+# Pods :
+-	Definition of how to run a container
+-	Single / multiple container
+-	.yaml 
+-	Multiple container ( shared Network, shared Storage)
+
+
+****
+# Kube-ctl 
+ - commandline interface for k8s
+ - 
+
    
     
     
