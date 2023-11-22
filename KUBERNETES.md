@@ -136,6 +136,29 @@ So in summary we can create a service in the following types:
 
 
 ****
+# Ingress Controller :
+
+# load balancing Techinques :
+ - ratio based
+ - path based
+ - load based
+ - sticky session
+ - domain based
+   
+       - white/black listing
+       - WAF (fireqwall)
+       - TLS
+   
+## load balancer examples :
+nginx, ambassador, f5, treffic, HA proxy 
+
+
+## problems :
+<img width="480" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/e8d2148b-e1a2-4a16-807a-62518fdf2fee">
+
+ - 
+
+
 
 <img width="441" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/56b792b5-150a-4e2d-b492-0c1605bf7133">
 
@@ -151,12 +174,23 @@ So in summary we can create a service in the following types:
 
 *****
 
+<img width="435" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/5d9bdd22-d3b6-4056-87a2-985bcf62f42e">
+
+<img width="439" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/623b7470-7b53-459a-9be1-f42d86541b99">
+
+<img width="439" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/c2a32c8c-5411-4d9c-8032-ac63f8286fcc">
+
+<img width="434" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/e152de5c-6981-4c42-ba5d-128805e5402a">
+
+
+*******
 
 
 
 
 
 
+*****
 <img width="596" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/aef1c6f4-298f-4967-8ccc-161ad2498693">
 
 <img width="608" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/e2f3c163-78d0-4ca0-ac36-10e0808b1b07">
