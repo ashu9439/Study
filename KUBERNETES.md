@@ -138,22 +138,15 @@ So in summary we can create a service in the following types:
 
 
 
+<img width="596" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/aef1c6f4-298f-4967-8ccc-161ad2498693">
 
+<img width="608" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/e2f3c163-78d0-4ca0-ac36-10e0808b1b07">
 
+<img width="473" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/1a77e7d6-9679-49b7-805a-c5f8719acae0">
 
+<img width="536" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/86d1582f-a42e-43be-8227-d50bbbfe470c">
 
-
-
-    <img width="596" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/aef1c6f4-298f-4967-8ccc-161ad2498693">
-
-
-    <img width="608" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/e2f3c163-78d0-4ca0-ac36-10e0808b1b07">
-
-    <img width="473" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/1a77e7d6-9679-49b7-805a-c5f8719acae0">
-
-    <img width="536" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/86d1582f-a42e-43be-8227-d50bbbfe470c">
-
-    <img width="315" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/7fbf9660-689f-4539-81c5-aa55c8bd0bb4">
+<img width="315" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/7fbf9660-689f-4539-81c5-aa55c8bd0bb4">
 
 
 
