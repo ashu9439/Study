@@ -136,7 +136,7 @@ So in summary we can create a service in the following types:
 
 
 ****
-# Ingress Controller :
+# Ingress and Ingress Controller :
 
 # load balancing Techinques :
  - ratio based
@@ -167,6 +167,18 @@ nginx, ambassador, f5, treffic, HA proxy
 <img width="422" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/f4cc5838-2c9a-419d-b95f-bd87a3b6a7b6">
 
 <img width="419" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/8f877d34-6022-4d3f-96c2-1a114ce3077d">
+
+
+*****
+# CRD - Custom resource defination, custom resource, custom controller ,  :
+ - Custom resource defination
+    - defining a new type of api to K8S.
+    - 
+ - custom resource:
+    - 
+ - custom controller:
+    - 
+
 
 
 
