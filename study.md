@@ -1,3 +1,113 @@
+This script appears to be a shell script designed to perform a series of operations on files stored in an AWS S3 bucket. Let's break down its functionality:
+
+1. **Check Root Access:**
+   - Checks if the script is running as root. If not, it attempts to execute the script as root using `sudo`.
+
+2. **File Existence Check:**
+   - Verifies the existence of a particular file (`opcodeindicator.dat`) in an S3 bucket (`s3://ddoa-qa-dr-opcode/incoming/`).
+
+3. **File Operations:**
+   - Deletes specific files based on patterns.
+   - Defines various S3 bucket paths for incoming, outgoing, output, stage, backlog, and archive files.
+
+4. **Glue Job Execution:**
+   - Uses AWS CLI (`aws glue start-job-run`) to trigger an AWS Glue job named `ddoa-qa-dr-opcode.py`.
+
+5. **Monitoring Glue Job Execution:**
+   - Monitors the status of the Glue job to check if it's still running or has failed.
+
+6. **File Movement and Handling based on Glue Job Status:**
+   - Moves files to the backlog folder in case the Glue job fails.
+   - Archives files if the Glue job runs successfully.
+
+7. **File Processing:**
+   - Copies files from S3 to the local EC2 directory.
+   - Executes XSLT transformations using Java (`saxon9he.jar`) to generate XML files.
+   - Compresses XML files using gzip.
+   - Copies the compressed files back to specific S3 locations (`OUTGOING_FILES` and `OUTPUT_FILES`).
+
+8. **File Transfer (Possibly SFTP):**
+   - Potentially transfers files using `sshpass` and `sftp` to a remote server.
+
+9. **Notification:**
+   - Generates an `opcode-files-ready.dat` file containing MD5 checksums of processed files and uploads it to an S3 bucket (`OUTGOING_FILES`).
+
+10. **Script Conclusion:**
+    - The script concludes with cleanup (`rm` commands) and an exit statement.
+
+Please note:
+- The script is interacting heavily with AWS services using the AWS CLI.
+- It performs various file operations, S3 bucket interactions, and potentially transfers files to a remote server.
+- It uses Java and XSLT for XML transformations.
+- It checks the status of an AWS Glue job and handles file movement accordingly based on the job's status.
+
+
+****
+
+Absolutely, let's dive deeper into the script's various sections and understand what each part accomplishes:
+
+### Root Check
+The script checks if it's running as the root user (`uid=0`). If not, it attempts to execute the script with root privileges using `sudo`.
+
+### File Existence Check
+It verifies the existence of a specific file (`opcodeindicator.dat`) located in the AWS S3 bucket (`s3://ddoa-qa-dr-opcode/incoming/`). This check determines whether further operations in the script will proceed based on the existence of this file.
+
+### File Operations
+Several operations involve deleting specific types of files:
+- Deleting files with certain patterns (`run-*`, `OA-TOY-OC*.xml`, etc.) from the local working directory.
+
+### AWS S3 Bucket Paths
+The script defines several variables storing paths to different directories within the S3 bucket: `INCOMING_FILES`, `OUTGOING_FILES`, `OUTPUT_FILES`, etc. These paths are used throughout the script to reference specific locations in the S3 bucket.
+
+### Glue Job Execution
+The script triggers an AWS Glue job named `ddoa-qa-dr-opcode.py` using the AWS CLI command `aws glue start-job-run`.
+
+### Monitoring Glue Job Execution
+The script continuously checks the status of the Glue job to determine if it is running, failed, or completed. It uses the AWS CLI (`aws glue get-job-runs`) and loops with a `sleep` command to wait for the Glue job to complete.
+
+### File Movement and Handling based on Glue Job Status
+- If the Glue job fails, the script moves certain files from the incoming directory to a `Backlog` folder within the S3 bucket.
+- If the Glue job is successful, the script archives these files in an `Archive` folder within the S3 bucket.
+
+### File Processing
+- Copies files from specific locations within the S3 bucket to the local EC2 instance.
+- Uses Java with `saxon9he.jar` to perform XSLT transformations on XML files.
+- Removes unnecessary files after transformations.
+- Compresses XML files using `gzip`.
+- Copies the compressed files back to specified locations within the S3 bucket.
+
+### File Transfer (Possibly SFTP)
+There's a commented-out section that suggests transferring files to a remote server using `sshpass` and `sftp`. This part might be used to transfer files to another server for further processing or storage.
+
+### Notification
+Creates an `opcode-files-ready.dat` file containing MD5 checksums of processed files. This file is uploaded to a specific location within the S3 bucket.
+
+### Conclusion
+The script concludes with some cleanup operations (`rm` commands) and exits. 
+
+This script is designed for handling a series of file operations, interacting heavily with AWS services (S3, Glue), performing transformations on XML files, and potentially transferring files to a remote server. It's orchestrated to manage data flow and processing within an AWS environment, specifically handling files for a particular data pipeline or workflow.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
 #!/bin/sh
 
 #
@@ -253,3 +363,4 @@ fi
 #rm -f opcode-files-ready.dat
 echo 'End of OpCode process'
 exit
+```
