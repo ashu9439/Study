@@ -1,4 +1,59 @@
+Absolutely! Updating the algorithm based on the information provided:
 
+### Revised Algorithm:
+
+1. **Check Root Access**  
+   - Check if the script is running as root. If not, execute as root using sudo.
+
+2. **File Existence Check**
+   - Verify the existence of 'opcodeindicator.dat' file in the S3 bucket 's3://ddoa-qa-dr-opcode/incoming/'.
+
+3. **Perform File Operations**
+   - Delete specific files with defined patterns from the local working directory.
+
+4. **Define AWS S3 Bucket Paths**
+   - Set variables to store paths to various directories within the S3 bucket:
+     - `INCOMING_FILES`, `OUTGOING_FILES`, `OUTPUT_FILES`, etc.
+
+5. **Trigger an AWS Glue Job (`ddoa-qa-dr-opcode.py`)**
+   - Initiate the Glue job to process CSV files from the 'ddoa-qa-dr-opcode/incoming' directory.
+
+6. **Monitor Glue Job Execution**
+   - Continuously check the status of the Glue job:
+     - Await completion of the Glue job or monitor for any failure.
+
+7. **Based on Glue Job Status**
+   - If the Glue job fails:
+     - Move specific files from the incoming directory to a 'Backlog' folder within the S3 bucket.
+   - If the job is successful:
+     - Archive these files in an 'Archive' folder within the S3 bucket.
+
+8. **File Processing (Glue Job Output)**
+   - The Glue job transforms CSV files.
+   - The transformed data is added to specific S3 paths for different details and full categories for Toyota and Lexus:
+     - `STAGE_DETAIL_TOY='s3://ddoa-qa-dr-opcode/stage/details/toy/'`
+     - `STAGE_DETAIL_LEX='s3://ddoa-qa-dr-opcode/stage/details/lex/'`
+     - `STAGE_FULL_TOY='s3://ddoa-qa-dr-opcode/stage/full/toy/'`
+     - `STAGE_FULL_LEX='s3://ddoa-qa-dr-opcode/stage/full/lex/'`
+
+9. **File Transfer (Possibly SFTP)**
+   - (Commented section): Transfer files to a remote server using 'sshpass' and 'sftp'.
+
+10. **Notification**
+    - Generate an 'opcode-files-ready.dat' file containing MD5 checksums of processed files.
+    - Upload the 'opcode-files-ready.dat' file to a specific location within the S3 bucket.
+
+11. **Conclusion**
+    - Perform cleanup operations (remove files).
+    - Exit the script.
+
+### Glue Job Role:
+
+- The Glue job (`ddoa-qa-dr-opcode.py`) processes CSV files from the 'ddoa-qa-dr-opcode/incoming' directory.
+- It performs transformations on these CSV files and updates corresponding locations within the S3 bucket for detailed and full data categories related to Toyota and Lexus (`STAGE_DETAIL_TOY`, `STAGE_DETAIL_LEX`, `STAGE_FULL_TOY`, `STAGE_FULL_LEX`).
+
+
+*****
 Certainly! Here's a comprehensive algorithmic breakdown of the provided shell script:
 
 ```
