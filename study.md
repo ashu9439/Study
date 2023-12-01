@@ -1,3 +1,51 @@
+
+Certainly! Here's a comprehensive algorithmic breakdown of the provided shell script:
+
+```
+1. Check if the script is running as root. If not, execute as root using sudo.
+
+2. Verify the existence of 'opcodeindicator.dat' file in the S3 bucket 's3://ddoa-qa-dr-opcode/incoming/'.
+
+3. Perform file operations:
+   - Delete specific files with certain patterns from the local working directory.
+
+4. Define AWS S3 bucket paths:
+   - INCOMING_FILES, OUTGOING_FILES, OUTPUT_FILES, etc.
+
+5. Trigger an AWS Glue job named 'ddoa-qa-dr-opcode.py'.
+
+6. Continuously monitor the status of the Glue job:
+   - Check if it's running or has failed.
+
+7. Based on Glue job status:
+   - If the job fails:
+     - Move specific files from the incoming directory to a 'Backlog' folder within the S3 bucket.
+   - If the job is successful:
+     - Archive these files in an 'Archive' folder within the S3 bucket.
+
+8. File Processing:
+   - Copy files from specific S3 locations to the local EC2 instance.
+   - Use Java with 'saxon9he.jar' to perform XSLT transformations on XML files.
+   - Remove unnecessary files after transformations.
+   - Compress XML files using 'gzip'.
+   - Copy compressed files back to specified locations within the S3 bucket.
+
+9. File Transfer (Possibly SFTP):
+   - (Commented section): Transfer files to a remote server using 'sshpass' and 'sftp'.
+
+10. Notification:
+    - Create an 'opcode-files-ready.dat' file containing MD5 checksums of processed files.
+    - Upload the 'opcode-files-ready.dat' file to a specific location within the S3 bucket.
+
+11. Conclusion:
+    - Perform cleanup operations (remove files).
+    - Exit the script.
+
+```
+
+This algorithm outlines the step-by-step actions performed by the shell script, including checks, file operations, AWS Glue job execution, file processing (transformation, compression), potential file transfers, and final notifications/cleanup.
+****
+****
 This script appears to be a shell script designed to perform a series of operations on files stored in an AWS S3 bucket. Let's break down its functionality:
 
 1. **Check Root Access:**
