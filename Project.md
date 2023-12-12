@@ -1,3 +1,35 @@
+Certainly! Here's an explanation of each function in the provided code:
+
+### `refreshOnBoardingForSpecifiedDealersProcessor`
+- **Purpose**:
+  - Initiates the refreshing process for specified dealer codes.
+  - Calls `refreshOnBoardingProcessor` for each dealer code received in the event.
+
+### `refreshOnBoardingProcessor`
+- **Purpose**:
+  - Handles the complete refreshing process for onboarding information.
+  - Retrieves data from various tables (OnBoarding, Gating Table, Dealer Master, DMS Master, Program Master).
+  - Calls `refreshOnBoarding` to update onboarding information.
+  - Updates OnBoarding table based on configuration settings and handles email alerts.
+
+### Functions for scanning tables:
+- `scanOnBoardingTable`, `scanGatingTable`, `scanDealerMasterTable`, `scanDMSMasterTable`, `scanProgramMasterTable`:
+  - Purpose: Perform full scans or queries on respective DynamoDB tables based on the provided dealer code or without any filter.
+  - Return respective table data as arrays of objects.
+
+### `refreshOnBoarding`
+- **Purpose**:
+  - Updates OnBoarding table data based on information gathered from various tables.
+  - Validates and processes data obtained from the Gating Table against Dealer Master, DMS Master, and Program Master data.
+  - Determines updated, failed, and deleted records for the OnBoarding table.
+
+These functions collectively manage the process of refreshing onboarding information for specified dealers or all dealers based on configuration settings. They ensure data integrity, perform validations, and update the OnBoarding table accordingly.
+
+
+
+*****
+
+
 Certainly! Here's an explanation of each function:
 
 ### `refreshDealerMasterProcessor`
