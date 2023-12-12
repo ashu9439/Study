@@ -1,3 +1,34 @@
+This code comprises TypeScript functions for refreshing gating rules based on different conditions.
+
+### `refreshGatingRulesForRequest`
+- **Function Signature**: 
+  - This function is `async` and takes a single parameter `requestBody` of type `RequestGatingRequest`.
+- **Function Logic**:
+  - It initializes a `serviceResponse` array to store the results.
+  - Processes each dealer asynchronously from the `requestBody.dealers` array:
+    - Validates the incoming dealer association details using `validate`.
+    - If the request is invalid, it logs the details and pushes an error response object to `serviceResponse`.
+    - Otherwise, it creates a new `GatingTableResponse` object, populates it with the dealer details, and generates gating rules based on associated programs.
+    - If no programs are associated with the dealer, it marks the request as invalid and adds an error message to `serviceResponse`.
+  - Logs the `serviceResponse` after processing the requests.
+  - Determines the HTTP status code based on the presence of error messages in the `serviceResponse`.
+  - Updates `constants.CALL_BACK_RESPONSE` object with the determined status code and constructs a JSON response based on certain conditions:
+    - If `canUpdateTable` is `true` and the status code is 200, it updates the DynamoDB table, constructs a response message, prepares HTML content with the updated data, and sends an alert mail.
+    - Otherwise, it constructs a response body containing `serviceResponse`.
+
+### `refreshAllGatingRulesForOnBoarding`
+- **Function Signature**: 
+  - This function is `async` and takes a single parameter `requestBody` of type `any`.
+- **Function Logic**:
+  - Performs a full scan on the `onBoardingTable` in DynamoDB to fetch all `OnBoarding` items.
+  - Extracts `dealerCd` from each item and stores them in the `dealerCds` array.
+  - Invokes `refreshGatingRulesForRequest` by passing an object containing `canUpdateTable` (or `false` if not provided) and the array of `dealerCds`.
+
+These functions primarily process dealer association details, validate them, generate gating rules based on associated programs, and perform updates on the DynamoDB table if certain conditions are met. Additionally, it sends alert mails with relevant data when updating the table.
+
+
+****
+
 This code represents a TypeScript function called `generateGatingRulesForRequest` responsible for processing an array of `DealerAssociation` objects to generate gating rules based on certain conditions. Here's a breakdown:
 
 - **Imports**: This section imports various modules, services, models, validators, and utility functions required for this file's operation.
