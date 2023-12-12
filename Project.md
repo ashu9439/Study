@@ -1,3 +1,51 @@
+Sure, here's an explanation of each function:
+
+### `construtGatingRule`
+- **Purpose**:
+  - Constructs or updates the gating rules for a given dealer association based on associated programs.
+- **Parameters**:
+  - `request`: An instance of `DealerAssociation` representing dealer association details.
+  - `currentGatingRule`: An instance of `GatingTableResponse` representing the current gating rules.
+- **Logic**:
+  - Iterates over the associated programs of the given dealer.
+  - Builds or updates the rules for the specific DSP (Dealer Service Provider) associated with each program.
+  - Handles various scenarios like creating new DSP rules if not existing, updating existing rules, and merging authorization and business rules.
+
+### `prepareHtmlTableWithData`
+- **Purpose**:
+  - Prepares an HTML table with the given JSON data.
+- **Parameter**:
+  - `emailJSONData`: An array of JSON objects to be represented in the table.
+- **Logic**:
+  - Generates HTML table markup with rows and columns based on the provided JSON data.
+
+### `isArrayOfObject1PresentInObject2`
+- **Purpose**:
+  - Checks if an array of objects (`obj1`) is completely present in another array of objects (`obj2`).
+- **Parameters**:
+  - `obj1`: Array of objects to check presence.
+  - `obj2`: Array of objects to check within.
+- **Logic**:
+  - Compares each object in `obj1` to all objects in `obj2` and checks if all objects in `obj1` are present in `obj2`.
+
+### `isObjectsEqual`
+- **Purpose**:
+  - Compares two objects for equality.
+- **Parameters**:
+  - `obj1`: First object to compare.
+  - `obj2`: Second object to compare.
+- **Logic**:
+  - Recursively compares each property in `obj1` with the corresponding property in `obj2`.
+  - Handles different types of properties (strings, objects, arrays) and checks for equality.
+
+These functions primarily deal with constructing/updating gating rules, preparing HTML tables, and performing object comparisons for equality or presence in other arrays/objects.
+
+
+
+***
+
+
+
 This code comprises TypeScript functions for refreshing gating rules based on different conditions.
 
 ### `refreshGatingRulesForRequest`
