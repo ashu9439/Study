@@ -1,3 +1,50 @@
+Certainly! Here's an explanation of each function:
+
+### `refreshDealerMasterProcessor`
+- **Purpose**:
+  - Orchestrates the refreshing process for the `DealerMaster` records.
+  - Retrieves records from different sources (DB, DIS, Gating Table), merges, updates, and maintains the `DealerMaster` records.
+- **Logic**:
+  - Scans the database for existing `DealerMaster` records.
+  - Retrieves DIS (Distributed Integration System) dealer records.
+  - Retrieves Gating Table records (if required based on configuration).
+  - Merges these records and updates the `DealerMaster` table accordingly.
+
+### `scanDealerMaster`
+- **Purpose**:
+  - Performs a full scan of the `DealerMaster` table.
+- **Logic**:
+  - Utilizes the `DynamoDbService` to perform a full scan of the `DealerMaster` table.
+
+### `getAllDISDealers`
+- **Purpose**:
+  - Retrieves all dealer records from DIS based on configured brand IDs.
+- **Logic**:
+  - Retrieves dealer records from DIS for each configured brand ID.
+  - Concatenates these records into a single array.
+
+### `updateDealerMaster`
+- **Purpose**:
+  - Updates the `DealerMaster` table based on the merged dealer records.
+- **Logic**:
+  - Handles deletion of specific dealer records.
+  - Handles insertion/upsertion of updated dealer records.
+  - Sends alert emails for deleted dealers.
+
+### `mergeDISDealerMaster`
+- **Purpose**:
+  - Merges DIS, current `DealerMaster` records, and Gating Table records to determine updated and deleted dealers.
+- **Logic**:
+  - Combines DIS records with existing `DealerMaster` records.
+  - Identifies dealers to be deleted or updated based on the merged data.
+  - Handles the addition of new dealers from the Gating Table.
+
+These functions collectively manage the refresh and synchronization of `DealerMaster` records by fetching data from various sources, updating records accordingly, and maintaining data integrity within the `DealerMaster` table.
+
+
+
+*****
+
 Sure, here's an explanation of each function:
 
 ### `construtGatingRule`
