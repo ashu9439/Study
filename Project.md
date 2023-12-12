@@ -1,3 +1,42 @@
+
+#Gating rules lamda
+
+Certainly! The `serverless.yml` file defines several Lambda functions and their configurations:
+
+1. **generateGatingRules:** This Lambda handles the generation of gating rules. It's triggered by an HTTP POST request to `/generateGatingRules/v1/`.
+
+2. **refreshGatingRules:** This Lambda refreshes gating rules. It's triggered by an HTTP POST request to `/refreshGatingRules/v1`.
+
+3. **refreshAllGatingRules:** This Lambda refreshes all gating rules from the OnBoarding table. It's triggered by an HTTP POST request to `/refreshAllGatingRules/v1`.
+
+4. **refreshDealerMaster:** This Lambda refreshes the Dealer Master table from DIS (Dealer Information System). It runs on a schedule defined by a cron expression.
+
+5. **refreshOnBoardingForAllDealers:** This Lambda refreshes the OnBoarding table for all dealers. It runs on a schedule defined by a cron expression.
+
+6. **refreshOnBoardingForSpecificDealer:** This Lambda refreshes the OnBoarding table for specific dealers.
+
+7. **getDealersForProgram:** This Lambda retrieves dealer codes for a given program code. It's triggered by an HTTP GET request to `/getDealersForProgram/v1/{programCd}`.
+
+8. **getDealersForDsp:** This Lambda retrieves dealer code and enrolled program details for a given DSP (Dealer Service Provider) code. It's triggered by an HTTP GET request to `/getDealersForDsp/v1/{dspCd}`.
+
+9. **getDealerDetails:** This Lambda retrieves details for a specific onboarding dealer. It's triggered by an HTTP GET request to `/getDealerDetails/v1/{dealerCd}`.
+
+Each function has its specific purpose and trigger events defined, such as HTTP requests or scheduled executions, and they often have associated authorization configurations for handling access control.
+
+****
+
+
+
+
+
+
+
+*****
+
+
+
+
+
 Certainly! This code seems to be an extensive module responsible for updating a database based on the contents of files stored in an AWS S3 bucket. Let's break it down:
 
 1. **Imports:** The code imports necessary modules from various libraries (`aws-sdk`, `pg`, `lodash`) and internal configurations (`AppConfig`, `constants`) required for AWS services, database operations, and other utilities.
