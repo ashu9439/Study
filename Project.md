@@ -1,3 +1,27 @@
+This Spring Integration configuration outlines a multi-step process for handling messages related to vehicle inventory. Here's a breakdown of the major steps involved:
+
+1. **Business Validations:** Messages undergo initial basic BOD validation before proceeding to business validations.
+2. **Perform Business Validations:** Business rules validation is executed using a service activator.
+3. **Routing Based on Validation:** Messages are routed based on the outcome of the business validation (true/false).
+4. **Routing to Vehicle Details Channels:** Messages are further routed based on specific criteria (e.g., New or Used vehicles).
+5. **Transformation and Processing:** Messages go through a series of transformations, including potential transformation from STAR to EMF format and sending messages to AWS Kinesis Stream or other channels.
+6. **Header Enrichment:** Headers are enriched with message status information.
+7. **Invoke Vehicle Detail Dealer API:** Invocation of external services to fetch vehicle details and dealer configuration data.
+8. **Route for Further Processing:** Routing messages based on dealer-specific criteria.
+9. **RTI Validations:** Performing Real-Time Integration validations and handling validation outcomes.
+10. **Invoke RTI Services:** Invoking RTI services based on validations.
+11. **Response Handling:** Handling responses based on service invocation success/failure.
+12. **Error Handling:** Managing error scenarios, such as queue unavailability or service invocation failure.
+13. **Further Routing:** Routing based on specific vehicle details or destination criteria (e.g., Toyota or Lexus vehicles).
+14. **Additional Service Invocations:** Invoking services for used vehicles specific to Toyota or Lexus.
+
+Overall, this configuration sets up a comprehensive flow to validate, process, transform, and handle vehicle inventory-related messages while invoking external services and managing various outcomes at different stages of the process.
+
+
+
+
+*****
+
 Certainly! Here's an explanation of each function in the provided code:
 
 ### `refreshOnBoardingForSpecifiedDealersProcessor`
