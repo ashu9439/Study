@@ -39,6 +39,8 @@
 <img width="461" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/1689eb97-05a6-44eb-a430-e84b9092cb5c">
 
 <img width="478" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/a37b4c0c-76a5-44ee-ad79-f8237136543c">
+<img width="470" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/5b5f0122-882f-44b2-b559-be2292dfc178">
+<img width="403" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/13352633-38fd-4b88-a618-21011c7337bb">
 
 
 
