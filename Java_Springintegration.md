@@ -15,3 +15,34 @@
 <img width="450" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/400e0e21-dc3f-4f12-b893-7f308bcc1d0a">
 <img width="493" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/4894ae6c-5005-43d2-b3f1-0f2846f01ada">
 <img width="478" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/7c457977-d135-4f3c-b28a-e1746b0c9e10">
+<img width="484" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/1768f856-049f-4442-b8f8-73b56bca5786">
+<img width="487" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/24f841ab-27b9-4fd1-a26f-afe1a5bce196">
+<img width="463" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/02488ca3-94cf-4830-889c-6ebeb2df9373">
+
+
+<img width="480" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/7df84362-ad9b-492a-992e-e1a74ec50731">
+
+<img width="485" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/5ef1d4b8-576d-4cf7-89a3-07ff0e50bc58">
+<img width="470" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/a9c88fc4-08de-4a30-9bb6-a2947bbde025">
+<img width="469" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/0003f96c-b357-4dc5-a269-84f5a771f89d">
+<img width="477" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/391f20ea-2378-4f07-88bf-b4ddee556f84">
+
+
+
+<img width="457" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/e576b992-a623-452e-aea9-375420e2b29b">
+<img width="458" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/8c9177d5-96b3-4cb1-aa24-e53ea914b10a">
+<img width="479" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/e3d91208-49c1-49f7-a79b-a21f6d462c1d">
+<img width="440" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/17b59e99-e74d-4a1e-b0bd-8400a52bc113">
+<img width="466" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/775f6004-b1d7-454a-84a2-ab08dcd01d40">
+
+
+<img width="461" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/1689eb97-05a6-44eb-a430-e84b9092cb5c">
+
+<img width="478" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/a37b4c0c-76a5-44ee-ad79-f8237136543c">
+
+
+
+
+
+
+
