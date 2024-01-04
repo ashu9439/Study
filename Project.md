@@ -1,3 +1,17 @@
+I/start - java -Dwebdriver.chrome.driver=D:\BDD-DD365UI\rti-dd365-ui-bdd-vehicles\node_modules\webdriver-manager\selenium\chromedriver_2.46.exe -Dwebdriver.gecko.driver=D:\BDD-DD365UI\rti-dd365-ui-bdd-vehicles\node_modules\webdriver-manager\selenium\geckodriver-v0.33.0.exe -jar D:\BDD-DD365UI\rti-dd365-ui-bdd-vehicles\node_modules\webdriver-manager\selenium\selenium-server-standalone-4.0.0-alpha-2.zip.jar -port 4444
+[11:04:40] I/start - seleniumProcess.pid: 9856
+Error: Invalid or corrupt jarfile D:\BDD-DD365UI\rti-dd365-ui-bdd-vehicles\node_modules\webdriver-manager\selenium\selenium-server-standalone-4.0.0-alpha-2.zip.jar
+[11:04:40] I/start - Selenium Standalone has exited with code 1
+
+
+
+
+
+
+
+
+
+
 This Spring Integration configuration outlines a multi-step process for handling messages related to vehicle inventory. Here's a breakdown of the major steps involved:
 
 1. **Business Validations:** Messages undergo initial basic BOD validation before proceeding to business validations.
