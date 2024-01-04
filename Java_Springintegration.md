@@ -44,6 +44,14 @@
 
 
 
+<img width="402" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/5edd15b9-307b-4a5a-8a9f-30748c8665c9">
+
+
+<img width="401" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/7d6ede60-d5ed-44b8-b208-221b2ace135d">
+<img width="400" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/6ee47ac4-4691-431c-9057-c50718f6e024">
+<img width="395" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/855d354a-a1e9-44d4-bb43-16f092557860">
+<img width="470" alt="image" src="https://github.com/ashu9439/Study/assets/46566670/b60a0a86-6167-4058-8c13-bf9b44a46a8e">
+
 
 
 
