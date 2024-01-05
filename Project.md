@@ -1,3 +1,28 @@
+node:events:492
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: unable to get local issuer certificate
+    at TLSSocket.onConnectSecure (node:_tls_wrap:1659:34)
+    at TLSSocket.emit (node:events:514:28)
+    at TLSSocket._finishInit (node:_tls_wrap:1070:8)
+    at ssl.onhandshakedone (node:_tls_wrap:856:12)
+Emitted 'error' event on Request instance at:
+    at Request.onRequestError (C:\Users\ashutosh.majhi\Downloads\rti-dd365-ui-bdd-vehicles-feature-dd365new_inventory (2) (1)\rti-dd365-ui-bdd-vehicles-feature-dd365new_inventory\rti-dd365-ui-bdd-vehicles-feature-dd365new_inventory\node_modules\request\request.js:877:8)
+    at ClientRequest.emit (node:events:526:35)
+    at TLSSocket.socketErrorListener (node:_http_client:495:9)
+    at TLSSocket.emit (node:events:514:28)
+    at emitErrorNT (node:internal/streams/destroy:151:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:116:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'UNABLE_TO_GET_ISSUER_CERT_LOCALLY'
+}
+
+Node.js v20.9.0
+
+*****
+
+
 I/start - java -Dwebdriver.chrome.driver=D:\BDD-DD365UI\rti-dd365-ui-bdd-vehicles\node_modules\webdriver-manager\selenium\chromedriver_2.46.exe -Dwebdriver.gecko.driver=D:\BDD-DD365UI\rti-dd365-ui-bdd-vehicles\node_modules\webdriver-manager\selenium\geckodriver-v0.33.0.exe -jar D:\BDD-DD365UI\rti-dd365-ui-bdd-vehicles\node_modules\webdriver-manager\selenium\selenium-server-standalone-4.0.0-alpha-2.zip.jar -port 4444
 [11:04:40] I/start - seleniumProcess.pid: 9856
 Error: Invalid or corrupt jarfile D:\BDD-DD365UI\rti-dd365-ui-bdd-vehicles\node_modules\webdriver-manager\selenium\selenium-server-standalone-4.0.0-alpha-2.zip.jar
