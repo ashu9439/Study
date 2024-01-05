@@ -1,3 +1,25 @@
+[11:29:51] I/http_utils - ignoring SSL certificate
+[11:29:51] I/http_utils - ignoring SSL certificate
+[11:29:51] I/http_utils - ignoring SSL certificate
+C:\Users\ashutosh.majhi\Downloads\rti-dd365-ui-bdd-vehicles-feature-dd365new_inventory (2) (1)\rti-dd365-ui-bdd-vehicles-feature-dd365new_inventory\rti-dd365-ui-bdd-vehicles-feature-dd365new_inventory\node_modules\webdriver-manager\built\lib\binaries\config_source.js:83
+                    reject(new Error('response status code is not 200'));
+                           ^
+
+Error: response status code is not 200
+    at Request.<anonymous> (C:\Users\ashutosh.majhi\Downloads\rti-dd365-ui-bdd-vehicles-feature-dd365new_inventory (2) (1)\rti-dd365-ui-bdd-vehicles-feature-dd365new_inventory\rti-dd365-ui-bdd-vehicles-feature-dd365new_inventory\node_modules\webdriver-manager\built\lib\binaries\config_source.js:83:28)
+    at Request.emit (node:events:514:28)
+    at Request.onRequestResponse (C:\Users\ashutosh.majhi\Downloads\rti-dd365-ui-bdd-vehicles-feature-dd365new_inventory (2) (1)\rti-dd365-ui-bdd-vehicles-feature-dd365new_inventory\rti-dd365-ui-bdd-vehicles-feature-dd365new_inventory\node_modules\request\request.js:1059:10)
+    at ClientRequest.emit (node:events:514:28)
+    at HTTPParser.parserOnIncomingClient (node:_http_client:693:27)
+    at HTTPParser.parserOnHeadersComplete (node:_http_common:119:17)
+    at TLSSocket.socketOnData (node:_http_client:535:22)
+    at TLSSocket.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:376:12)
+    at readableAddChunk (node:internal/streams/readable:349:9)
+
+Node.js v20.9.0
+****
+
 node:events:492
       throw er; // Unhandled 'error' event
       ^
