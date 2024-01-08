@@ -1,3 +1,24 @@
+
+
+[10:46:00] I/launcher - Running 1 instances of WebDriver
+[10:46:00] I/hosted - Using the selenium server at http://127.0.0.1:4444/wd/hub
+[10:46:00] E/runner - Unable to start a WebDriver session.
+[10:46:00] E/launcher - Error: WebDriverError: unknown error: cannot find Chrome binary
+  (Driver info: chromedriver=2.46.628402 (536cd7adbad73a3783fdc2cab92ab2ba7ec361e1),platform=Windows NT 10.0.17763 x86_64) (WARNING: The server did not provide any stacktrace information)
+Command duration or timeout: 16 milliseconds
+Build info: version: '3.8.0', revision: '924c4067df', time: '2017-11-30T11:37:19.049Z'
+System info: host: 'EC2AMAZ-KMRG4HQ', ip: '172.70.80.119', os.name: 'Windows Server 2019', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_391'
+Driver info: driver.version: unknown
+    at Object.checkLegacyResponse (D:\BDD-DD365UI\rti-dd365-ui-bdd-vehicles\node_modules\selenium-webdriver\lib\error.js:546:15)
+    at parseHttpResponse (D:\BDD-DD365UI\rti-dd365-ui-bdd-vehicles\node_modules\selenium-webdriver\lib\http.js:509:13)
+    at D:\BDD-DD365UI\rti-dd365-ui-bdd-vehicles\node_modules\selenium-webdriver\lib\http.js:441:30
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+[10:46:00] E/launcher - Process exited with error code 100
+
+
+geting this while running `npm run clean-build && protractor typeScript/config/config.js`
+
+**************
 [11:29:51] I/http_utils - ignoring SSL certificate
 [11:29:51] I/http_utils - ignoring SSL certificate
 [11:29:51] I/http_utils - ignoring SSL certificate
