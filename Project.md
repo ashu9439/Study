@@ -1,3 +1,170 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+		http://www.springframework.org/schema/integration/xml http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd
+		http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm.xsd
+		http://www.springframework.org/schema/integration/ws http://www.springframework.org/schema/integration/ws/spring-integration-ws.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/integration/stream http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd
+		http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-file="http://www.springframework.org/schema/integration/file"
+	xmlns:int-xml="http://www.springframework.org/schema/integration/xml"
+	xmlns:int-ws="http://www.springframework.org/schema/integration/ws"
+	xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+	xmlns:int-stream="http://www.springframework.org/schema/integration/stream">
+
+	<!-- Message received after BOD validation has to be passed for business 
+		validation -->
+
+	<!-- 1. Perform VIN checkdigit validation. -->
+	<int:service-activator input-channel="businessValidationRequestChannel" ref="repairOrderBusinessValidationService"
+				method="performInitialValidations" output-channel="businessValidationChannel" />
+
+
+	<!-- 2. If validation fails, forward the message to response creator channel. 
+		else proceed with next validation. -->
+	<!-- <int:router input-channel="initialValidatedChannel" expression="headers.messageProcessResultHeader.businessValidationStatus"> 
+		<int:mapping value="true" channel="businessValidationChannel" /> <int:mapping 
+		value="false" channel="responseCreatorChannel" /> </int:router> -->
+
+	<int:bridge input-channel="businessValidationChannel" output-channel="businessValidationResponseChannel" />
+
+	<!-- 3 B. Gateway and chain configuration, which marshalls the message, 
+		send the message to queue and returns the response -->
+	<!-- <int:gateway id="eigGateway" default-request-channel="sendROChannel" 
+		/> -->
+	<!-- <int:chain input-channel="businessValidationChannel" output-channel="esbChannel"> 
+		<int:service-activator ref="repairOrderProcessor" method="mapStarToEmf" /> 
+		<int-xml:marshalling-transformer marshaller="roMarshaller" result-transformer="domToStringTransformer" 
+		/> </int:chain> -->
+
+	<!-- For successful business validated requests, send the message for EMF 
+		processing and Response creation -->
+	<int:bridge input-channel="processorRequestChannel" output-channel="processorRequestSubscribeChannel" />
+	
+	<!-- 3. Service Activator to check whether PartyRecieverId is empty or not and set boolean in ro_replay header. -->
+	<int:service-activator id="processROReplayServiceActivator" ref="repairOrderProcessor" method="processROMessage" input-channel="processorRequestSubscribeChannel"
+		output-channel="routeROMessageChannel" />
+
+	<!-- 4. If ro_replay true emf message will be post on JMS or send the message to kinesis Stream  -->
+	<int:router id="roReplayRouter" input-channel="routeROMessageChannel" expression="headers['ro_replay']">
+		<int:mapping value="true" channel="ProcessRoReplayVerifyChannel" />
+		<int:mapping value="false" channel="ProcessRoChannel" />
+	</int:router>
+	
+	<!-- 4.A If process_kinesis_stream true message will be post on KS and if false message will be send to MQ -->
+	<int:router id="roRouter" input-channel="ProcessRoChannel" expression="headers['process_kinesis_stream']">
+		<int:mapping value="true" channel="processKSChannel" />
+		<int:mapping value="false" channel="emfChannel" />
+	</int:router>
+	
+	<!-- 5. Service Activator to post message on kinesis Stream. -->
+	<int:service-activator id="processKsServiceActivator" ref="repairOrderProcessor" method="processKinesisStream" input-channel="processKSChannel"
+		output-channel="emfChannel" />
+
+	<!-- 6. Route the message to emfChannel or send it to error channel  -->
+	<!-- <int:router id="roEmfRouter" input-channel="processedKSChannel" expression="headers['ro_message_ks_stram_status']">
+		<int:mapping value="success" channel="emfChannel" />
+		<int:mapping value="failure" channel="kinesisErrorHandlingChannel" />
+	</int:router> -->
+	
+	<!-- 6.A. Service Activator to convert message from STAR to EMF . -->
+	<int:service-activator id="roStartoEmfServiceActivator" ref="repairOrderProcessor" method="mapStarToEmf" input-channel="emfChannel" output-channel="emfTransformedChannel" />
+
+	<!-- 6.B. Marshallar to convert the emf object to XML . -->
+
+	<int-xml:marshalling-transformer marshaller="roMarshaller" result-transformer="domToStringTransformer" input-channel="emfTransformedChannel" output-channel="emfPayloadlogChannel" />
+	
+	<!-- 6.B.1 Service Activator to log emf message  . -->
+	 <int:service-activator id="roEmflogServiceActivator" ref="repairOrderProcessor" method="logEmfPayload" input-channel="emfPayloadlogChannel" output-channel="esbChannel" /> 
+
+	
+	<!-- 7.A If process_ro_replay is true message will send to MQ and if is false will send to error handling channel  . -->
+	<int:router id="roReplyVerifyRouter" input-channel="ProcessRoReplayVerifyChannel" expression="headers['process_ro_replay']">
+		<int:mapping value="true" channel="ProcessRoReplayChannel" />
+		<int:mapping value="false" channel="processROReplayVerifyKSChannel" />
+		<int:mapping value="" channel="roErrorHandlingChannel" />
+	</int:router>
+	
+	<!-- 7.B Send ROReplay Message to JMSTemplate . -->
+	<int:header-enricher id="roReplayHeaderEnricher" input-channel="ProcessRoReplayChannel" output-channel="processROReplayVerifyKSChannel">
+		<int:header name="roReplayCheckFlag" expression="@roReplayGateway.exchange(#root).payload" />
+	</int:header-enricher>
+    <int:gateway id="roReplayGateway" default-request-channel="roReplayDataChannel" />
+    <!-- 7.C Service Activator for StartToEMF & postROReplayMessage. -->
+    <int:chain input-channel="roReplayDataChannel">
+		<int:service-activator ref="repairOrderProcessor" method="mapStarToEmf" />
+		<int-xml:marshalling-transformer marshaller="roMarshaller" result-transformer="domToStringTransformer" />
+		<int:service-activator ref="repairOrderProcessor" method="postROReplayMessage" />
+   </int:chain>
+   
+   <!-- 7.D If process_kinesis_stream is true message will send to KS stream and if is false will send to response channel  -->
+   <int:router id="roReplyKSRouter" input-channel="processROReplayVerifyKSChannel" expression="headers['process_kinesis_stream']">
+		<int:mapping value="true" channel="processROReplayKSChannel" />
+		<int:mapping value="false" channel="responseCreatorChannel" />
+	</int:router>
+	
+	<!-- 7.E. Service Activator to post message on kinesis Stream. -->
+    <int:service-activator id="processRoKsServiceActivator" ref="repairOrderProcessor" method="processKinesisStream" input-channel="processROReplayKSChannel"
+		output-channel="responseCreatorChannel" />
+
+	<!-- 8.A. Service Activator to error Unavailable. -->
+	<int:service-activator id="handleUnavailServiceActivator" input-channel="roErrorHandlingChannel" ref="repairOrderProcessor" method="handleRoUnavailability" />
+
+	<!-- 8.B . Send the message response creator channel -->
+	<int:bridge input-channel="processorRequestSubscribeChannel" output-channel="responseCreatorChannel" />
+
+	<bean id="messageValidationInterceptor"
+		class="com.tms.ddoa.core.interceptor.MessageValidationInterceptor">
+		<property name="xsdList">
+			<bean
+				class="org.springframework.beans.factory.config.ListFactoryBean">
+				<property name="targetListClass">
+					<value>java.util.ArrayList</value>
+				</property>
+				<property name="sourceList">
+					<list>
+						<value>${xsd.path}/envelope.xsd</value>
+						<value>${xsd.path}/BODs/Standalone/ProcessRepairOrder.xsd</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="domToStringTransformer"
+		class="org.springframework.integration.xml.transformer.ResultToStringTransformer" />
+
+	<int:publish-subscribe-channel
+		id="businessValidationChannel" />
+	<int:publish-subscribe-channel
+		id="processorRequestSubscribeChannel" />
+	<int:channel id="businessValidationOutputChannel" />
+	<int:channel id="sendROChannel" />
+	<int:channel id="emfTransformedChannel" />
+	<int:channel id="emfChannel" />
+	<int:channel id="routeROMessageChannel" />
+	<int:channel id="processedKSChannel" />
+	<int:channel id="ProcessRoReplayChannel" />
+	<int:channel id="ProcessRoChannel" />
+	<int:channel id="ProcessRoReplayVerifyChannel" />
+	<int:channel id="processROReplayVerifyKSChannel" />
+	<int:channel id="emfPayloadlogChannel" />
+</beans>
+
+
+
+****
+
+
+
 Certainly! This Spring Integration configuration orchestrates a flow for processing repair orders. Here's a breakdown of the main steps and components involved:
 
 1. **Input Channels:** The process begins with messages coming into various input channels (`businessValidationRequestChannel`, `processorRequestChannel`).
