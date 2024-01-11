@@ -188,6 +188,8 @@ This configuration is quite extensive and involves multiple steps and potential 
 
 
 ******
+
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -355,7 +357,7 @@ This configuration is quite extensive and involves multiple steps and potential 
 	<int:channel id="emfEnrichResponseHeaderChannel" />
 	<int:channel id="processROReplayEnricherKSChannel" />
 </beans>
-
+```
 ***********
 
 [10:46:00] I/launcher - Running 1 instances of WebDriver
