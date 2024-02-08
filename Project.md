@@ -1,3 +1,237 @@
+```
+/**
+ * @name scan
+ * @description Scans DynamoDB table for getting the records based on filter condition
+ * @param  {any} tableName - Name of the table
+ * @param  {any} filterExpression - The filter expression to use
+ * @param  {any} expressionAttribNames - Name of the attributes in filter expression
+ * @param  {any} expressionAttribValues - value of attributes in filter expression
+ * @param  {any} projectExpression - Projection expression
+ * @returns Promise
+ */
+export async function scan(tableName: any, filterExpression: any, expressionAttribNames: any,
+    expressionAttribValues: any, projectExpression: any): Promise<any> {
+    try {
+        log.info('Region:', process.env.REGION);
+        AWS.config.update({ region: process.env.REGION });
+
+        const db = new AWS.DynamoDB.DocumentClient();
+        const dbParams: AWS.DynamoDB.DocumentClient.ScanInput = {
+            TableName: tableName,
+            FilterExpression: filterExpression,
+            ExpressionAttributeNames: expressionAttribNames,
+            ExpressionAttributeValues: expressionAttribValues,
+            ProjectionExpression: projectExpression
+        };
+        let scannedResult: any[] = [];
+        let dbPromise = db.scan(dbParams).promise();
+        let response = await dbPromise;
+        if (!_.isEmpty(response)) {
+            if (!_.isEmpty(response.LastEvaluatedKey)) {
+                if (!_.isEmpty(response.Items)) {
+                    response.Items.forEach(item => {
+                        scannedResult.push(item);
+                    });
+                }
+                while (!_.isEmpty(response.LastEvaluatedKey)) {
+                    dbParams.ExclusiveStartKey = response.LastEvaluatedKey;
+                    response = await db.scan(dbParams).promise();
+                    if (!_.isEmpty(response.Items)) {
+                        response.Items.forEach(item => {
+                            scannedResult.push(item);
+                        });
+                    }
+                }
+                return Promise.resolve(scannedResult);
+            } else {
+                return Promise.resolve(response.Items);
+            }
+        } else {
+            return Promise.resolve([]);
+        }
+    } catch (error) {
+        log.error('Error Connecting to DynamoDB', error.stack);
+        throw error;
+    }
+}
+
+/**
+ * @name scan
+ * @description Scans DynamoDB table for getting all the records
+ * @param  {any} tableName - Name of the table
+ * @param  {any} projectExpression - Projection expression
+ * @returns Promise
+ */
+export async function fullScan(tableName: any): Promise<any> {
+    AWS.config.update({ region: process.env.REGION });
+    const db = new AWS.DynamoDB.DocumentClient();
+    try {
+
+        const dbParams: AWS.DynamoDB.DocumentClient.ScanInput = {
+            TableName: tableName
+        };
+        let scannedResult: any[] = [];
+        let dbPromise = db.scan(dbParams).promise();
+        let response = await dbPromise;
+        if (!_.isEmpty(response)) {
+            if (!_.isEmpty(response.LastEvaluatedKey)) {
+                if (!_.isEmpty(response.Items)) {
+                    response.Items.forEach(item => {
+                        scannedResult.push(item);
+                    });
+                }
+                while (!_.isEmpty(response.LastEvaluatedKey)) {
+                    dbParams.ExclusiveStartKey = response.LastEvaluatedKey;
+                    response = await db.scan(dbParams).promise();
+                    if (!_.isEmpty(response.Items)) {
+                        response.Items.forEach(item => {
+                            scannedResult.push(item);
+                        });
+                    }
+                }
+                return Promise.resolve(scannedResult);
+            } else {
+                return Promise.resolve(response.Items);
+            }
+        } else {
+            return Promise.resolve([]);
+        }
+    } catch (error) {
+        log.error('Error Connecting to DynamoDB', error.stack);
+        throw error;
+    }
+}
+
+/**
+ * @name scan
+ * @description Scans DynamoDB table for getting the records based on filter condition
+ * @param  {any} tableName - Name of the table
+ * @param  {any} indexName - Index Name of the table
+ * @param  {any} filterExpression - The filter expression to use
+ * @param  {any} expressionAttribNames - Name of the attributes in filter expression
+ * @param  {any} expressionAttribValues - value of attributes in filter expression
+ * @param  {any} projectExpression - Projection expression
+ * @returns Promise
+ */
+export async function scanIndex(tableName: any, indexName: string, filterExpression: any,
+    expressionAttribNames: any, expressionAttribValues: any,
+    projectExpression: any): Promise<any[]> {
+    try {
+        const db = new AWS.DynamoDB.DocumentClient();
+        const dbParams: AWS.DynamoDB.DocumentClient.ScanInput = {
+            TableName: tableName,
+            IndexName: indexName,
+            FilterExpression: filterExpression,
+            ExpressionAttributeNames: expressionAttribNames,
+            ExpressionAttributeValues: expressionAttribValues,
+            ProjectionExpression: projectExpression
+        };
+        let scannedResult: any[] = [];
+        let dbPromise = db.scan(dbParams).promise();
+        let response = await dbPromise;
+        if (!_.isEmpty(response)) {
+            if (!_.isEmpty(response.LastEvaluatedKey)) {
+                if (!_.isEmpty(response.Items)) {
+                    response.Items.forEach(item => {
+                        scannedResult.push(item);
+                    });
+                }
+                while (!_.isEmpty(response.LastEvaluatedKey)) {
+                    dbParams.ExclusiveStartKey = response.LastEvaluatedKey;
+                    response = await db.scan(dbParams).promise();
+                    if (!_.isEmpty(response.Items)) {
+                        response.Items.forEach(item => {
+                            scannedResult.push(item);
+                        });
+                    }
+                }
+                return Promise.resolve(scannedResult);
+            } else {
+                return Promise.resolve(response.Items);
+            }
+        } else {
+            return Promise.resolve([]);
+        }
+    } catch (error) {
+        log.error({ error }, 'Error Connecting to DynamoDB inside scan');
+        throw error;
+    }
+}
+
+export async function query(tableName: any, indexName: any, keyCondExpression: any, filterExpression: any,
+    expressionAttribNames: any, expressionAttribValues: any,
+    projectExpression): Promise<any> {
+    try {
+        AWS.config.update({ region: process.env.REGION });
+        const db = new AWS.DynamoDB.DocumentClient();
+        let queriedResult: any[] = [];
+        const dbParams: AWS.DynamoDB.DocumentClient.QueryInput = {
+            TableName: tableName,
+            IndexName: indexName,
+            FilterExpression: filterExpression,
+            ProjectionExpression: projectExpression,
+            ExpressionAttributeNames: expressionAttribNames,
+            ExpressionAttributeValues: expressionAttribValues,
+            KeyConditionExpression: keyCondExpression
+        };
+
+        let dbPromise = db.query(dbParams).promise();
+        let response = await dbPromise;
+        if (!_.isEmpty(response)) {
+            if (!_.isEmpty(response.LastEvaluatedKey)) {
+                if (!_.isEmpty(response.Items)) {
+                    response.Items.forEach(item => {
+                        queriedResult.push(item);
+                    });
+                }
+                while (!_.isEmpty(response.LastEvaluatedKey)) {
+                    dbParams.ExclusiveStartKey = response.LastEvaluatedKey;
+                    response = await db.query(dbParams).promise();
+                    if (!_.isEmpty(response.Items)) {
+                        response.Items.forEach(item => {
+                            queriedResult.push(item);
+                        });
+                    }
+                }
+                return Promise.resolve(queriedResult);
+            } else {
+                return Promise.resolve(response.Items);
+            }
+        } else {
+            return Promise.resolve([]);
+        }
+
+    } catch (error) {
+        log.error('Error Connecting to DynamoDB', error.stack);
+        throw error;
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 This Spring Integration XML configuration defines a series of steps for processing messages in a repair order system. Here's a breakdown of the key steps:
 
