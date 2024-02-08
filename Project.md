@@ -1,3 +1,30 @@
+const AWS = require('aws-sdk');
+
+const tableName = 'YourTableName';
+
+const dynamodb = new AWS.DynamoDB();
+
+const params = {
+  TableName: tableName
+};
+
+dynamodb.describeTable(params, (err, data) => {
+  if (err) {
+    console.error("Error describing table:", err);
+  } else {
+    const itemCount = data.Table.ItemCount;
+    console.log("Total number of records in the table:", itemCount);
+  }
+});
+
+
+
+
+
+
+
+
+
 ```
 async function fetchItemsWithOffsetAndLimit(tableName, indexName, keyCondExpression, filterExpression,
     expressionAttribNames, expressionAttribValues, projectExpression, offset, limit) {
