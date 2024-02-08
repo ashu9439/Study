@@ -1,4 +1,61 @@
 ```
+async function fetchItemsWithOffsetAndLimit(tableName, indexName, keyCondExpression, filterExpression,
+    expressionAttribNames, expressionAttribValues, projectExpression, offset, limit) {
+    // Calculate ExclusiveStartKey
+    let exclusiveStartKey = null;
+    if (offset > 0) {
+        exclusiveStartKey = await calculateExclusiveStartKey(tableName, indexName, keyCondExpression, filterExpression,
+            expressionAttribNames, expressionAttribValues, projectExpression, offset);
+    }
+
+    // Call the query function with ExclusiveStartKey
+    return query(tableName, indexName, keyCondExpression, filterExpression,
+        expressionAttribNames, expressionAttribValues, projectExpression, exclusiveStartKey, limit);
+}
+
+// Calculate ExclusiveStartKey based on offset
+async function calculateExclusiveStartKey(tableName, indexName, keyCondExpression, filterExpression,
+    expressionAttribNames, expressionAttribValues, projectExpression, offset) {
+    const dbParams = {
+        TableName: tableName,
+        IndexName: indexName,
+        FilterExpression: filterExpression,
+        ProjectionExpression: projectExpression,
+        ExpressionAttributeNames: expressionAttribNames,
+        ExpressionAttributeValues: expressionAttribValues,
+        KeyConditionExpression: keyCondExpression,
+        Limit: offset // Set the Limit to the offset value
+    };
+
+    try {
+        const response = await db.query(dbParams).promise();
+        if (response.LastEvaluatedKey) {
+            return response.LastEvaluatedKey;
+        } else {
+            // No more items to fetch beyond the offset
+            return null;
+        }
+    } catch (error) {
+        console.error('Error calculating ExclusiveStartKey:', error);
+        throw error;
+    }
+}
+
+// Example usage:
+const fetchedItems = await fetchItemsWithOffsetAndLimit(tableName, indexName, keyCondExpression, filterExpression,
+    expressionAttribNames, expressionAttribValues, projectExpression, offset, limit);
+
+// Use fetchedItems
+
+```
+
+
+
+
+
+
+
+```
 /**
  * @name scan
  * @description Scans DynamoDB table for getting the records based on filter condition
