@@ -1,3 +1,79 @@
+
+
+
+
+
+
+
+```
+#! /bin/bash
+#AUTHORIZATION=$(curl --globoff -X POST 'https://login.microsoftonline.com/tmnab2c.onmicrosoft.com/oauth2/token?api-version=1.6' \
+                   # -F 'grant_type=client_credentials' \
+                   # -F 'client_id=b611f4bd-d684-4669-922a-26c031a1284b' \
+                   # -F 'client_secret=AMV8Q~xrI6Sujh6nS8BjxrXsENzxkBwxCGIHDba8'\
+                    #                    -F 'resource=https://ddoa-rs.toyota.com'|\
+                   # awk -F\" '/access_token/{print $4}'
+AUTHORIZATION="Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2Rkb2EtcnMudG95b3RhLmNvbSIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzM2N2VlMThjLTM1NWItNDdlMS1hYTRlLTdmZjkxNzgzY2FmNS8iLCJpYXQiOjE3MDQ4Njg3MzgsIm5iZiI6MTcwNDg2ODczOCwiZXhwIjoxNzA0ODcyNjM4LCJhaW8iOiJFMlZnWUpoMVQ5ZzYyRnIwZFpIcVF0dXM5VzNpQUE9PSIsImFwcGlkIjoiYjYxMWY0YmQtZDY4NC00NjY5LTkyMmEtMjZjMDMxYTEyODRiIiwiYXBwaWRhY3IiOiIxIiwiaWRwIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvMzY3ZWUxOGMtMzU1Yi00N2UxLWFhNGUtN2ZmOTE3ODNjYWY1LyIsIm9pZCI6IjJlMGFhNDExLWEzOGEtNGU0My1hMjA2LWI3M2Y3MmUzMDc4OCIsInJoIjoiMC5BUjBBak9GLU5sczE0VWVxVG5fNUY0UEs5YXNsY1FVdXJOOUhxeVZnQWdIazBPTWRBQUEuIiwicm9sZXMiOlsiRERPQV9WZWhpY2xlcyIsIkRET0FfU2VydmljZXMiLCJERE9BX1BhcnRzIl0sInN1YiI6IjJlMGFhNDExLWEzOGEtNGU0My1hMjA2LWI3M2Y3MmUzMDc4OCIsInRpZCI6IjM2N2VlMThjLTM1NWItNDdlMS1hYTRlLTdmZjkxNzgzY2FmNSIsInV0aSI6InpzNXBFWk1TM0VxaC0wLWM5WUhrQVEiLCJ2ZXIiOiIxLjAifQ.Q7pnR6fx2SXH7DTQthQ9-Tg4FsfCr59n8VMsT6ECMlW1nJVVwsRDu2PpbGCFlhAcmJcvNKKpklqYMEPZI6oodKcf4-9ywpsO8MFraWJym-9XlZ8VTuPbLUdlvGZALHZapRezQNmBwXO4f8c0ATI2e4ZkNXrx9TJFRBSTMAfBL0sphaP3c4rriCB2U5fPwnff80Fu5Fj8BuV0jpADvDV5WVB5RJgCQJhM7G31XXzUr4toEEtCtQ4HeBJFY23_fvXc62kri9qq4-STRripSJGqJybNePBWww7bFXXbDsBVDv-mE5GW3k1mnxSEMkpk7WAGzUWzDrY4psM696uYZcIJcQ"
+echo $AUTHORIZATION
+
+while IFS="," read -r rec1 rec2 rec3
+do
+ filename="/mnt/efs/ddoa-events/ddoa-events-cei/prod/archive$rec2$rec3$rec4$rec5$rec6$rec7$rec8$rec9$rec10$rec11$rec12$rec13$rec14$rec15$rec16$rec17$rec18$rec19$rec20"
+ filename+="_Request.xml"
+ #echo $rec3 $rec4 $rec5 $rec6 $rec7 $rec8 $rec9 $rec10 $rec11 $rec12 $rec13 $rec14 $rec15 $rec16 $rec17 $rec18 $rec19 $rec20
+ echo $filename
+  sed -i 's/<meta>/<!-- <meta>/; s/<\/meta>/<\/meta> -->/' $filename
+
+ tag=`awk -F "[><]" '/DestinationNameCode/{print $2}' $filename| cut -d ":" -f 1`
+  ptag1="<$tag:PartyReceiverID>$rec1@1@CPS"
+  ptag1+="</$tag:PartyReceiverID>"
+    echo "$ptag1"
+xml_content=$(echo "$a" |sed '/<\/ns:Destination>/i\'"$ptag1" > $filename)
+response=$(echo "$b" |curl --request POST --url "https://ddoa.ads.toyota.com/DDOAInternal" --header 'cache-control: no-cache' --header 'content-type: application/xml' --header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2Rkb2EtcnMudG95b3RhLmNvbSIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzM2N2VlMThjLTM1NWItNDdlMS1hYTRlLTdmZjkxNzgzY2FmNS8iLCJpYXQiOjE3MDQ4ODgwMDMsIm5iZiI6MTcwNDg4ODAwMywiZXhwIjoxNzA0ODkxOTAzLCJhaW8iOiJFMlZnWUpEWHkrUzl6ZlY5Z3dTN092Y25nZlhuQUE9PSIsImFwcGlkIjoiYjYxMWY0YmQtZDY4NC00NjY5LTkyMmEtMjZjMDMxYTEyODRiIiwiYXBwaWRhY3IiOiIxIiwiaWRwIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvMzY3ZWUxOGMtMzU1Yi00N2UxLWFhNGUtN2ZmOTE3ODNjYWY1LyIsIm9pZCI6IjJlMGFhNDExLWEzOGEtNGU0My1hMjA2LWI3M2Y3MmUzMDc4OCIsInJoIjoiMC5BUjBBak9GLU5sczE0VWVxVG5fNUY0UEs5YXNsY1FVdXJOOUhxeVZnQWdIazBPTWRBQUEuIiwicm9sZXMiOlsiRERPQV9WZWhpY2xlcyIsIkRET0FfU2VydmljZXMiLCJERE9BX1BhcnRzIl0sInN1YiI6IjJlMGFhNDExLWEzOGEtNGU0My1hMjA2LWI3M2Y3MmUzMDc4OCIsInRpZCI6IjM2N2VlMThjLTM1NWItNDdlMS1hYTRlLTdmZjkxNzgzY2FmNSIsInV0aSI6IkhEVTBUQUFobVVTVDFVUTFnQ2lrQWciLCJ2ZXIiOiIxLjAifQ.wYaLrqk1Sh5qfuhhZ-VQTIKB7Ous3XcHoLPrCLtOR26JHPMrK3Uh17jGTiCMcaKdH56M-fU79kZpApEmDNspUcDEOb7IoK1DCBM3-Tf2MKFRqTd4zaAdJpwkHpwUUrvuB6Ciu4x98IFSDBUr_C_B9_4tP3hTSBtBm16KeC4kQ9MQzwfBmwUjxZ05oT2CR9NEv6z2VAZewfhRldp6rOLoLUFQTQxX0bsKNNKFbi3N3aERTFhBvqP9dX5qUQZHsRO8wJcD9hX0m_oxcMdKr-vVdWv2SFY_oTu1s8l7GfU_FPCxMhDBM6znurLv062bMWkP8Q6oASoatB22J4VoUiFNMA' --data "$xml_content" -o /dev/null -s -w "%{http_code}\n")
+if test "$response" = 401
+then
+    AUTHORIZATION=$(curl --globoff -X POST 'https://login.microsoftonline.com/tmnab2c.onmicrosoft.com/oauth2/token?api-version=1.6' \
+                    -F 'grant_type=client_credentials' \
+                    -F 'client_id=b611f4bd-d684-4669-922a-26c031a1284b' \
+                    -F 'client_secret=AMV8Q~xrI6Sujh6nS8BjxrXsENzxkBwxCGIHDba8'\
+                                        -F 'resource=https://ddoa-rs.toyota.com'|\
+                    awk -F\" '/access_token/{print $4}')
+        response=$(echo "$b" |curl --request POST --url "https://ddoa.ads.toyota.com/DDOAInternal" --header 'cache-control: no-cache' --header 'content-type: application/xml' --header 'Authorization: $AUTHORIZATION' --data "$xml_content" -o /dev/null -s -w "%{http_code}\n")
+else
+    echo "Success"
+fi
+echo "$rec2,$response" >> execution.csv
+done < <(cut -d c "," -f 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 tmp_1000.csv)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const AWS = require('aws-sdk');
 
 const tableName = 'YourTableName';
